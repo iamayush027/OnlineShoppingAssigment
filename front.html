@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="./Style.css">
+
+
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-custom">
+
+
+        <a class=" navbar navbar-brand navbar-left " align="left">Beans love bears</a>
+
+      <div class="nav navbar-nav navbar-right" align="right" style= "  width:70%; display: inline;">
+        <button class=" pull-right btn btn-lg btn-success navbar-right nav navbar-nav " id="homebtn" type="submit">Home</button>
+        <button class="pull-right btn btn-lg btn-success navbar-right nav navbar-nav " id="favbtn"  type="submit">Favourites</button>
+
+    </div>
+</nav>
+  <br><br>
+  <div class="row justify-content-center" style="width:1200px; margin:0 auto;">
+
+
+
+    <div class="col">
+      <input class="form-control form-control-lg form-control-borderless"  type="search" id="proname" placeholder="Search topics or keywords">
+      <button class="btn btn-lg btn-success" id="searchbtn" style="width:1200px; border: 65%;" type="submit">Search</button>
+
+
+      </form>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="row" id="Producted">
+
+    </div>
+  </div>
+  <script>
+    $.getJSON("http://localhost:3000/Product", function (result) {
+      for (i in result) {
+        var productCard = document.createElement("div")
+        productCard.className = "col-sm-4 my-sm-3"
+        productCard.innerHTML = `
+        <img src="/home/ayush/Documents/Navigus_Project/self.jpeg" class="card-img-top">
+        <div class="card-body">
+          <h4 class="card-title"id="Did">${result[i].pID}</h4>
+          <p class="card-text">${result[i].pName}</p>
+          <p class="card-text">${result[i].pDesc}</p>
+          <button class="btn btn-primary" id=${result[i].prID} onclick="setFav(this)">Add to Favourite</button>
+        </div>
+        `
+        console.log(productCard)
+        document.getElementById("Producted").appendChild(productCard);
+      }
+    });
+
+    $("#searchbtn").click(function(){
+
+if(document.getElementById("proname").value=="")
+alert("pls enter the product ID")
+else{
+      var searchString=document.getElementById("proname").value;
+  $.getJSON("http://localhost:3000/search/"+searchString,function(result){
+    document.getElementById("Producted").innerHTML = "";
+    for (i in result) {
+        var productCard = document.createElement("div")
+        productCard.className = "col-sm-4 my-sm-3"
+        productCard.innerHTML = `
+        <img src="/home/ayush/Documents/Navigus_Project/self.jpeg" class="card-img-top">
+        <div class="card-body">
+          <h4 class="card-title"id="Did">${result[i].pID}</h4>
+          <p class="card-text">${result[i].pName}</p>
+          <p class="card-text">${result[i].pDesc}</p>
+          <button class="btn btn-primary" onclick="setFav()">Add to Favourite</button>
+        </div>
+        `
+        console.log(productCard)
+        document.getElementById("Producted").appendChild(productCard);
+      }
+  });
+}
+});
+$("#homebtn").click(function(){
+
+
+  $.getJSON("http://localhost:3000/Product", function (result) {
+    document.getElementById("Producted").innerHTML = "";
+
+      for (i in result) {
+        var productCard = document.createElement("div")
+        productCard.className = "col-sm-4 my-sm-3"
+        productCard.innerHTML = `
+        <img src="/home/ayush/Documents/Navigus_Project/self.jpeg" class="card-img-top">
+        <div class="card-body">
+          <h4 class="card-title"id="Did">${result[i].pID}</h4>
+          <p class="card-text">${result[i].pName}</p>
+          <p class="card-text">${result[i].pDesc}</p>
+          <button class="btn btn-primary" id="favbtn" onclick="setFav()">Add to Favourite</button>
+        </div>
+        `
+        console.log(productCard)
+        document.getElementById("Producted").appendChild(productCard);
+      }
+    });
+
+});
+
+$("#favbtn").click(function(){
+  $.getJSON("http://localhost:3000/favourite",function(result){
+
+    document.getElementById("Producted").innerHTML = "";
+    for (i in result) {
+        var productCard = document.createElement("div")
+        productCard.className = "col-sm-4 my-sm-3"
+        productCard.innerHTML = `
+        <img src="/home/ayush/Documents/Navigus_Project/self.jpeg" class="card-img-top">
+        <div class="card-body">
+          <h4 class="card-title"id="Did">${result[i].pID}</h4>
+          <p class="card-text">${result[i].pName}</p>
+          <p class="card-text">${result[i].pDesc}</p>
+          <button class="btn btn-primary">Add to Favourite</button>
+        </div>
+        `
+        console.log(productCard)
+        document.getElementById("Producted").appendChild(productCard);
+      }
+
+  });
+});
+
+function setFav(id)
+{
+  // let prID=$(id).attr("id");
+  // $.post('http://localhost:3000/addtofav',
+  // {proID:prID
+  // },
+  // function(data,status,jqXHR){
+  // alert("added to favourite");
+  // }
+  //
+  // )
+  alert("this is feature is yet to come");
+}
+
+  </script>
+
+</body>
+
+</html>
